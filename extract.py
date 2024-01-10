@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from prefect import flow, task
 
 
-# @task(name="Make a request and store the json locally", retries=3)
+@task(name="Make a request and store the json locally", retries=3)
 def call_api_and_save_response(lat, lon, start_time, end_time, city_name) -> Path:
     """Make a request and store the json locally"""
     api_key = os.getenv("OPEN_WEATHER_API_KEY")
@@ -27,3 +27,20 @@ def call_api_and_save_response(lat, lon, start_time, end_time, city_name) -> Pat
                 file.write(response.content)
 
     return file_path
+
+
+@flow(name="Start the Extraction Flow")
+def start_extraction_flow(lat, lon, start_time, end_time, city_name) -> Path:
+    """Being the execution of the data extraction
+
+    Args:
+        lat (str): Latitude of the city
+        lon (str): Longitude of the city
+        start_time (str): Initial time of metric gathering
+        end_time (str): End time of metric gathering
+        city_name (str): Name of the city
+
+    Returns:
+        Path
+    """
+    return call_api_and_save_response(lat, lon, start_time, end_time, city_name)
