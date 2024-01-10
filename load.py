@@ -23,6 +23,7 @@ def store_in_cloud(table_name: str, path: Path, dataset: str) -> None:
     gcp_bucket_block = GcsBucket.load("gcp-zoomcamp-bucket")
     gcp_credentials_block = GcpCredentials.load("gcp-de-zoomcamp-creds")
 
+    # Save the table data as local parquet file
     with sql_connection_block.get_connection() as sql_con:
         df = pd.read_sql_table(table_name, con=sql_con)
 
@@ -46,7 +47,7 @@ def store_in_cloud(table_name: str, path: Path, dataset: str) -> None:
     )
 
 
-@flow(name="Main Load Flow")
-def start_load_flow(df: pd.DataFrame, table_name: str, path: Path, dataset: str):
+@flow(name="Start the Load Flow")
+def start_load_flow(df, table_name, path, dataset):
     store_in_local_db(df, table_name)
     store_in_cloud(table_name, path, dataset)
