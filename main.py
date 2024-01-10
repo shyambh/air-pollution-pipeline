@@ -1,7 +1,8 @@
+import os
 from extract import call_api_and_save_response
 from pathlib import Path
 from transform import transform_data
-from load import save_to_local
+from load import start_load_flow
 from prefect import flow, task
 from dotenv import load_dotenv
 
@@ -19,10 +20,19 @@ def start_etl_flow():
     end_time = 1704007137
     city_name = "Kathmandu"
     table_name = f"aqi_{city_name}"
+    data_path = Path("./.sample_data")
+    dataset = os.getenv("AQI_DATASET_NAME")
 
-    file_path = call_api_and_save_response(lat, lon, start_time, end_time, city_name)
-    df = transform_data(file_path)
-    save_to_local(df, table_name)
+    # Extract the data
+    response_file_path = call_api_and_save_response(
+        lat, lon, start_time, end_time, city_name
+    )
+
+    # Apply transformations
+    df = transform_data(response_file_path)
+
+    # Load the data
+    start_load_flow(df, table_name, data_path, dataset)
 
 
 if __name__ == "__main__":
