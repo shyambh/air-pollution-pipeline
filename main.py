@@ -1,4 +1,6 @@
 import os
+import requests
+from utilities.util_methods import *
 from extract import start_extraction_flow
 from pathlib import Path
 from transform import start_transformation_flow
@@ -11,21 +13,28 @@ load_dotenv()
 
 
 @flow(name="ETL Main Flow")
-def start_etl_flow():
+def start_etl_flow(city_name: str, start_date: str, end_date: str) -> None:
     """Start the ETL flow"""
-
-    lat = 27.708317
-    lon = 85.3205817
-    start_time = 1606807137
-    end_time = 1704007137
-    city_name = "Kathmandu"
     table_name = f"aqi_{city_name}"
     data_path = Path("./.sample_data")
     dataset = os.getenv("AQI_DATASET_NAME")
 
-    # Extract the data
+    start_day_unix_time = get_unix_time_from_date(start_date)
+    end_day_unix_time = get_unix_time_from_date(end_date)
+
+    # Get coordinates for the city
+    if city_name:
+        coordinates = get_city_coordinates(city_name)
+    else:
+        raise ValueError("Please enter the city name.")
+
+    print(f"coordinates : {coordinates}")  # Extract the data
     response_file_path = start_extraction_flow(
-        lat, lon, start_time, end_time, city_name
+        coordinates["lat"],
+        coordinates["lon"],
+        start_day_unix_time,
+        end_day_unix_time,
+        city_name,
     )
 
     # Apply transformations
@@ -36,4 +45,7 @@ def start_etl_flow():
 
 
 if __name__ == "__main__":
-    start_etl_flow()
+    city_name = os.getenv("CITY")
+    start_date = os.getenv("START_DATE")
+    end_date = os.getenv("END_DATE")
+    start_etl_flow(os.getenv("CITY"), start_date, end_date)
