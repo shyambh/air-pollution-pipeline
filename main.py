@@ -13,14 +13,18 @@ load_dotenv()
 
 
 @flow(name="ETL Main Flow")
-def start_etl_flow(city_name: str, start_date: str, end_date: str) -> None:
+def start_etl_flow(city_name: str, start_date: str, end_date: str = "") -> None:
     """Start the ETL flow"""
     table_name = f"aqi_{city_name}"
     data_path = Path("./.sample_data")
     dataset = os.getenv("AQI_DATASET_NAME")
 
     start_day_unix_time = get_unix_time_from_date(start_date)
-    end_day_unix_time = get_unix_time_from_date(end_date)
+
+    if end_date:
+        end_day_unix_time = get_unix_time_from_date(end_date)
+    else:
+        end_day_unix_time = get_current_time()
 
     # Get coordinates for the city
     if city_name:
@@ -48,4 +52,5 @@ if __name__ == "__main__":
     city_name = os.getenv("CITY")
     start_date = os.getenv("START_DATE")
     end_date = os.getenv("END_DATE")
+
     start_etl_flow(os.getenv("CITY"), start_date, end_date)
