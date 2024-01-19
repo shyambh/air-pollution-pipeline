@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: staging
+    description: > 
+      This is the BigQuery instance containing the weather details
+    database: data-eng-practice007
+    schema: weather_details
+    tables:
+      - name: aqi_Kathmandu
+        description: >
+          AQI of Kathmandu from 2020 till now
+      - name: aqi_Delhi
+        description: > 
+          AQI of Delhi from 2020 till now
+      - name: aqi_London
+        description: > 
+          AQI of London from 2020 till now
