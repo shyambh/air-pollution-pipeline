@@ -16,3 +16,28 @@ sources:
       - name: aqi_London
         description: > 
           AQI of London from 2020 till now
+
+models:
+  - name: all_city_aqi
+    columns:
+      - name: dt
+        tests:
+          - not_null
+      
+      - name: aqi
+        tests:
+          - accepted_values:
+              values: [1,2,3,4,5]
+              quote: false
+      
+      - name: aqi_level_description
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor']
+      
+      - name: city_name
+        tests:
+          - relationships:
+              to: ref('country_coordinates_population')
+              field: capital_city
