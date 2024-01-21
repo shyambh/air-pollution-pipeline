@@ -41,3 +41,8 @@ models:
           - relationships:
               to: ref('country_coordinates_population')
               field: capital_city
+            
+seeds:
+  - name: country_coordinates_population
+    description: >
+      "country_coordinates_population" is a table which contains the geo coordinates of different countries. This table is seeded by dbt before the actual models are generated.  
