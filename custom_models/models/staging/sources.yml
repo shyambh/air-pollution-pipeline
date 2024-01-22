@@ -7,18 +7,12 @@ sources:
     database: data-eng-practice007
     schema: weather_details
     tables:
-      - name: aqi_Kathmandu
+      - name: all_city_aqi
         description: >
-          AQI of Kathmandu from 2020 till now
-      - name: aqi_Delhi
-        description: > 
-          AQI of Delhi from 2020 till now
-      - name: aqi_London
-        description: > 
-          AQI of London from 2020 till now
+          This table contains the AQI levels for all the recorded cities along with the level of each pollutant
 
 models:
-  - name: all_city_aqi
+  - name: all_city_aqi_with_desc
     columns:
       - name: dt
         tests:
