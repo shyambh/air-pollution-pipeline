@@ -6,6 +6,7 @@ from transform import start_transformation_flow
 from load import start_load_flow_local, start_load_flow_cloud
 from prefect import flow
 from dotenv import load_dotenv
+from start_dbt_flow import run_dbt_flow
 
 
 load_dotenv()
@@ -54,6 +55,9 @@ def start_etl_flow(city_names: str, start_date: str, end_date: str = "") -> None
         )
 
     start_load_flow_cloud(df, table_name, data_path, dataset, city_names)
+
+    # Run dbt transformations and models
+    run_dbt_flow()
 
 
 if __name__ == "__main__":
