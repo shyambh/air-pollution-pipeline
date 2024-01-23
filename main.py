@@ -1,12 +1,12 @@
 import os
-from utilities.util_methods import *
-from extract import start_extraction_flow
 from pathlib import Path
-from transform import start_transformation_flow
-from load import start_load_flow_local, start_load_flow_cloud
 from prefect import flow
 from dotenv import load_dotenv
+from extract import start_extraction_flow
+from transform import start_transformation_flow
+from load import start_load_flow_local, start_load_flow_cloud
 from start_dbt_flow import run_dbt_flow
+from utilities.util_methods import *
 
 
 load_dotenv()

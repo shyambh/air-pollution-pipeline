@@ -13,6 +13,8 @@ sources:
 
 models:
   - name: all_city_aqi_with_desc
+    description: >
+          This model contains the historical AQI results for the different capital cities of the world. It is configured to be materialized as a view in the destination data service. The AQI level is added into this view.
     columns:
       - name: dt
         tests:
