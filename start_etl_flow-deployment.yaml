@@ -1,0 +1,78 @@
+###
+### A complete description of a Prefect Deployment for flow 'ETL Main Flow'
+###
+name: AQI_STATS
+description: Start the ETL flow
+version: 08d54deec77c67a3b46fd4e222a64b6c
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: null
+tags: []
+parameters: 
+  city_names: ""
+  start_date: ""
+  open_weather_api_key: ""
+  gcp_project_name: ""
+  deployment_env: ""
+  end_date: ""
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: ETL Main Flow
+manifest_path: null
+storage: null
+path: /Users/shyam/repos/air-pollution-pipeline
+entrypoint: main:start_etl_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    city_names:
+      title: city_names
+      position: 0
+      type: string
+    start_date:
+      title: start_date
+      position: 1
+      type: string
+    open_weather_api_key:
+      title: open_weather_api_key
+      position: 2
+      type: string
+    gcp_project_name:
+      title: gcp_project_name
+      position: 3
+      type: string
+    deployment_env:
+      title: deployment_env
+      position: 4
+      type: boolean
+    end_date:
+      title: end_date
+      default: ''
+      position: 5
+      type: string
+  required:
+  - city_names
+  - start_date
+  - open_weather_api_key
+  - gcp_project_name
+  - deployment_env
+  definitions: null
+timestamp: '2024-01-22T18:00:56.029764+00:00'
+triggers: []
+enforce_parameter_schema: null

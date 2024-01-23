@@ -24,7 +24,9 @@ def store_in_local_db(
 
 
 @task(name="Store to Google Cloud Storage and Big Query", retries=2)
-def store_in_cloud(table_name: str, path: Path, dataset: str) -> None:
+def store_in_cloud(
+    table_name: str, path: Path, dataset: str, project_name: str
+) -> None:
     sql_connection_block = SqlAlchemyConnector.load("pg-sql-connector")
     gcp_bucket_block = GcsBucket.load("gcp-zoomcamp-bucket")
     gcp_credentials_block = GcpCredentials.load("gcp-de-zoomcamp-creds")
@@ -47,7 +49,7 @@ def store_in_cloud(table_name: str, path: Path, dataset: str) -> None:
     # Store the local parquet file to BigQuery
     df.to_gbq(
         f"{dataset}.{table_name}",
-        os.getenv("GCP_PROJECT_NAME"),
+        project_name,
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         if_exists="replace",
     )
@@ -59,5 +61,5 @@ def start_load_flow_local(df, table_name, path, dataset, city_name, replace_tabl
 
 
 @flow(name="Start the Load Flow in GCP BigQuery")
-def start_load_flow_cloud(df, table_name, path, dataset, city_name):
-    store_in_cloud(table_name, path, dataset)
+def start_load_flow_cloud(df, table_name, path, dataset, city_name, project_name):
+    store_in_cloud(table_name, path, dataset, project_name)

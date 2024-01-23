@@ -17,9 +17,9 @@ def get_unix_time_from_date(date_string: str) -> int:
     return unix_time
 
 
-def get_city_coordinates(city_name: str):
+def get_city_coordinates(city_name: str, api_key: str):
     """Get city coordinates from the given city name"""
-    api = f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=5&appid={os.getenv('OPEN_WEATHER_API_KEY')}"
+    api = f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=5&appid={api_key}"
 
     response = requests.get(api, timeout=5_000)
 

@@ -10,9 +10,10 @@ from prefect import flow, task
 
 
 @task(name="Make a request and store the json locally", retries=3)
-def call_api_and_save_response(lat, lon, start_time, end_time, city_name) -> Path:
+def call_api_and_save_response(
+    lat, lon, start_time, end_time, city_name, api_key
+) -> Path:
     """Make a request and store the json locally"""
-    api_key = os.getenv("OPEN_WEATHER_API_KEY")
     file_name = f"aqi_data_{city_name}.json"
     file_path = Path(f"./.sample_data/{file_name}")
 
@@ -30,7 +31,7 @@ def call_api_and_save_response(lat, lon, start_time, end_time, city_name) -> Pat
 
 
 @flow(name="Start the Extraction Flow")
-def start_extraction_flow(lat, lon, start_time, end_time, city_name) -> Path:
+def start_extraction_flow(lat, lon, start_time, end_time, city_name, api_key) -> Path:
     """Being the execution of the data extraction
 
     Args:
@@ -43,4 +44,4 @@ def start_extraction_flow(lat, lon, start_time, end_time, city_name) -> Path:
     Returns:
         Path
     """
-    return call_api_and_save_response(lat, lon, start_time, end_time, city_name)
+    return call_api_and_save_response(lat, lon, start_time, end_time, city_name, api_key)
