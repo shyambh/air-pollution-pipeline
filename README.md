@@ -9,4 +9,4 @@ OpenWeather's [Air Pollution API](https://openweathermap.org/api/air-pollution) 
 
 A short walkthrough of the solution:  
 
-<iframe width="663" height="330" src="https://www.youtube.com/embed/lXv__DY_QaQ" title="A short demo using dbt + BigQuery + Python + Pandas + Prefect" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[[https://www.youtube.com/watch?v=lXv__DY_QaQ]]
