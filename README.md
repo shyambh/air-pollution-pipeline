@@ -9,4 +9,4 @@ OpenWeather's [Air Pollution API](https://openweathermap.org/api/air-pollution) 
 
 A short walkthrough of the solution:  
 
-[[https://www.youtube.com/watch?v=lXv__DY_QaQ]]
+[![Watch the demo](./readme_images/images/demo_thumbnail.png)](https://youtu.be/lXv__DY_QaQ)
