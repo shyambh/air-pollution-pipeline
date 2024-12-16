@@ -28,9 +28,9 @@ def store_in_cloud(
     table_name: str, path: Path, dataset: str, project_name: str
 ) -> None:
     sql_connection_block = SqlAlchemyConnector.load("pg-sql-connector")
-    gcp_bucket_block = GcsBucket.load("gcp-zoomcamp-bucket")
-    gcp_credentials_block = GcpCredentials.load("gcp-de-zoomcamp-creds")
-
+    gcp_bucket_block = GcsBucket.load("gcs-block")
+    gcp_credentials_block = GcpCredentials.load("gcp-credentials")
+    
     # Save the table data as local parquet file
     with sql_connection_block.get_connection() as sql_con:
         df = pd.read_sql_table(table_name, con=sql_con)
@@ -63,3 +63,4 @@ def start_load_flow_local(df, table_name, path, dataset, city_name, replace_tabl
 @flow(name="Start the Load Flow in GCP BigQuery")
 def start_load_flow_cloud(df, table_name, path, dataset, city_name, project_name):
     store_in_cloud(table_name, path, dataset, project_name)
+    pass

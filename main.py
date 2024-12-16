@@ -71,9 +71,12 @@ def start_etl_flow(
     run_dbt_flow(is_test_env)
 
 
-# if __name__ == "__main__":
-#     city_name = os.getenv("CITY")
-#     start_date = os.getenv("START_DATE")
-#     end_date = os.getenv("END_DATE")
+if __name__ == "__main__":
+    city_name = os.getenv("CITY")
+    start_date = os.getenv("START_DATE")
+    end_date = os.getenv("END_DATE")
+    open_api_weather_key = os.getenv("OPEN_WEATHER_API_KEY")
+    gcp_project_name = os.getenv("GCP_PROJECT_NAME")
+    deployment_env = os.getenv("DB_ENV")
 
-#     start_etl_flow(city_name, start_date, end_date)
+    start_etl_flow(city_name, start_date, open_api_weather_key,gcp_project_name, deployment_env, end_date)

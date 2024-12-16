@@ -2,9 +2,9 @@ version: 2
 
 sources:
   - name: staging
-    description: > 
+    description: >
       This is the BigQuery instance containing the weather details
-    database: data-eng-practice007
+    database: data-eng-practice007-443803
     schema: weather_details
     tables:
       - name: all_city_aqi
@@ -14,31 +14,31 @@ sources:
 models:
   - name: all_city_aqi_with_desc
     description: >
-          This model contains the historical AQI results for the different capital cities of the world. It is configured to be materialized as a view in the destination data service. The AQI level is added into this view.
+      This model contains the historical AQI results for the different capital cities of the world. It is configured to be materialized as a view in the destination data service. The AQI level is added into this view.
     columns:
       - name: dt
         tests:
           - not_null
-      
+
       - name: aqi
         tests:
           - accepted_values:
-              values: [1,2,3,4,5]
+              values: [1, 2, 3, 4, 5]
               quote: false
-      
+
       - name: aqi_level_description
         tests:
           - not_null
           - accepted_values:
-              values: ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor']
-      
+              values: ["Good", "Fair", "Moderate", "Poor", "Very Poor"]
+
       - name: city_name
         tests:
           - relationships:
               to: ref('country_coordinates_population')
               field: capital_city
-            
+
 seeds:
   - name: country_coordinates_population
     description: >
-      "country_coordinates_population" is a table which contains the geo coordinates of different countries. This table is seeded by dbt before the actual models are generated.  
+      "country_coordinates_population" is a table which contains the geo coordinates of different countries. This table is seeded by dbt before the actual models are generated.
