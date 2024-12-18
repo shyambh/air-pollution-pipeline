@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from prefect import flow, task
 
 
-@task(name="Make a request and store the json locally", retries=3)
+@task(name="Make a request and store the json locally", retries=3, log_prints=True)
 def call_api_and_save_response(
     lat, lon, start_time, end_time, city_name, api_key
 ) -> Path:
@@ -30,7 +30,7 @@ def call_api_and_save_response(
     return file_path
 
 
-@flow(name="Start the Extraction Flow")
+@flow(name="Start the Extraction Flow", log_prints=True)
 def start_extraction_flow(lat, lon, start_time, end_time, city_name, api_key) -> Path:
     """Being the execution of the data extraction
 

@@ -7,7 +7,7 @@ from prefect_gcp import GcpCredentials
 from prefect_sqlalchemy import SqlAlchemyConnector
 
 
-@task(name="Save to local Postgres", retries=2)
+@task(name="Start the Load Flow in Local Postgres", description="Save to local Postgres", retries=2, log_prints=True)
 def store_in_local_db(
     df: pd.DataFrame, table_name: str, city_name: str, replace_table: bool
 ) -> None:
@@ -23,7 +23,7 @@ def store_in_local_db(
         df.to_sql(table_name, con=db_engine, if_exists="append")
 
 
-@task(name="Store to Google Cloud Storage and Big Query", retries=2)
+@task(name="Start the Load Flow in GCP BigQuery", description="Store to Google Cloud Storage and Big Query", retries=2, log_prints=True)
 def store_in_cloud(
     table_name: str, path: Path, dataset: str, project_name: str
 ) -> None:
@@ -55,12 +55,12 @@ def store_in_cloud(
     )
 
 
-@flow(name="Start the Load Flow in Local Postgres")
-def start_load_flow_local(df, table_name, path, dataset, city_name, replace_table):
+
+def start_load_task_local(df, table_name, path, dataset, city_name, replace_table):
     store_in_local_db(df, table_name, city_name, replace_table)
 
 
-@flow(name="Start the Load Flow in GCP BigQuery")
+
 def start_load_flow_cloud(df, table_name, path, dataset, city_name, project_name):
     store_in_cloud(table_name, path, dataset, project_name)
     pass

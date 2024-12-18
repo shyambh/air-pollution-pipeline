@@ -3,8 +3,8 @@ from pathlib import Path
 from prefect import flow
 from dotenv import load_dotenv
 from extract import start_extraction_flow
-from transform import start_transformation_flow
-from load import start_load_flow_local, start_load_flow_cloud
+from transform import start_transformation_task
+from load import start_load_task_local, start_load_flow_cloud
 from start_dbt_flow import run_dbt_flow
 from utilities.util_methods import *
 
@@ -12,7 +12,7 @@ from utilities.util_methods import *
 load_dotenv()
 
 
-@flow(name="ETL Main Flow")
+@flow(name="ETL Main Flow", log_prints=True)
 def start_etl_flow(
     city_names: str,
     start_date: str,
@@ -53,12 +53,12 @@ def start_etl_flow(
         )
 
         # Apply transformations
-        df = start_transformation_flow(response_file_path)
+        df = start_transformation_task(response_file_path)
 
         replace_table = index == 0 and len(city_names) > 1
 
         # Load the data to GCS and BigQuery
-        start_load_flow_local(
+        start_load_task_local(
             df, table_name, data_path, dataset, city_names, replace_table
         )
 

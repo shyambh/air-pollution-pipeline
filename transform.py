@@ -6,7 +6,7 @@ import pandas as pd
 from prefect import flow, task
 
 
-@task(name="Transform the raw JSON data file", retries=2)
+@task(name="Start the Transformation Task",description="Transform the raw JSON data file", retries=2, log_prints=True)
 def transform_data(file_path: Path) -> pd.DataFrame:
     with open(file_path, encoding="UTF-8") as file:
         data = json.load(file)
@@ -22,8 +22,8 @@ def transform_data(file_path: Path) -> pd.DataFrame:
         return df
 
 
-@flow(name="Start the Transformation Flow")
-def start_transformation_flow(file_path: Path) -> pd.DataFrame:
+
+def start_transformation_task(file_path: Path) -> pd.DataFrame:
     """Apply respective transformation on the data pointed by the file_path
 
     Args:
