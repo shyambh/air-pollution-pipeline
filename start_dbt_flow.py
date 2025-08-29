@@ -8,7 +8,7 @@ from prefect import flow
 def trigger_dbt_flow(is_test_env: bool) -> str:
     result = DbtCoreOperation(
         commands=[
-            f"dbt build --full-refresh --vars '{{\"is_test_run\": {is_test_env}}}'"
+            f"dbt build --select custom_models --full-refresh --vars '{{\"is_test_run\": {is_test_env}}}'"
         ],
         project_dir=Path() / "custom_models",
         profiles_dir=Path().home() / ".dbt",
