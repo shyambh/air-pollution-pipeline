@@ -20,7 +20,7 @@ def store_in_local_db(
             con=db_engine,
             if_exists="replace" if replace_table else "append",
         )
-        df.to_sql(table_name, con=db_engine, if_exists="append")
+        df.to_sql(table_name, con=db_engine, if_exists="replace" if replace_table else "append")
 
 
 @task(name="Start the Load Flow in GCP BigQuery", description="Store to Google Cloud Storage and Big Query", retries=2, log_prints=True)

@@ -20,12 +20,14 @@ def start_etl_flow(
     gcp_project_name: str,
     deployment_env: str,
     end_date: str = "",
+    dataset_param: str = ""
 ) -> None:
     """Start the ETL flow"""
     table_name = "all_city_aqi"
     data_path = Path("./.sample_data")
-    dataset = os.getenv("AQI_DATASET_NAME")
-
+                
+    dataset = dataset_param if dataset_param else os.getenv("AQI_DATASET_NAME")
+    
     start_day_unix_time = get_unix_time_from_date(start_date)
 
     if end_date:

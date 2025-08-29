@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 import datetime
+import math
 import pandas as pd
 from prefect import flow, task
 
@@ -15,6 +16,9 @@ def transform_data(file_path: Path) -> pd.DataFrame:
 
         # Refining the column names to remove the parent key from the JSON object
         df.rename(columns=lambda x: x.split(".")[-1], inplace=True)
+
+        # Floor the 'aqi' values to remove decimals
+        df['aqi'] = df['aqi'].apply(lambda x: int(math.floor(x)))       
 
         # Converting the Unix timestamp to datetime
         df["dt"] = df["dt"].apply(datetime.datetime.fromtimestamp)
