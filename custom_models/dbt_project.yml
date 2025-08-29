@@ -35,3 +35,11 @@ models:
     # Config indicated by + and applies to all files under models/example/
     staging:
       +materialized: view
+
+  ## see docs: https://docs.elementary-data.com/
+  elementary:
+    ## elementary models will be created in the schema '<your_schema>_elementary'
+    +schema: "elementary"
+    ## To disable elementary for dev, uncomment this:
+    # enabled: "{{ target.name in ['prod','analytics'] }}"
+
