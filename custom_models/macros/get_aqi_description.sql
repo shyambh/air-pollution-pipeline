@@ -7,5 +7,6 @@
         when 3 then 'Moderate'
         when 4 then 'Poor'
         when 5 then 'Very Poor'
+        when 6 then 'Hazardous'
     end
 {% endmacro %}
