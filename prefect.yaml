@@ -7,10 +7,10 @@ name: air-pollution-pipeline
 prefect-version: 3.1.7
 
 # build section allows you to manage and build docker images
-build: null
+build:
 
 # push section allows you to manage if and how this project is uploaded to remote locations
-push: null
+push:
 
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
@@ -20,15 +20,32 @@ pull:
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
 - name: AQI_Parameterized
-  version: null
+  version:
   tags: []
-  concurrency_limit: null
+  concurrency_limit:
   description: Start the ETL flow
   entrypoint: main.py:start_etl_flow
   parameters: {}
   work_pool:
     name: local_run
-    work_queue_name: null
+    work_queue_name:
     job_variables: {}
   enforce_parameter_schema: true
   schedules: []
+- name: Test_Deployment_Aug_28_2025
+  version:
+  tags: []
+  concurrency_limit:
+  description: Start the ETL flow
+  entrypoint: main.py:start_etl_flow
+  parameters: {'city_names': 'Kathmandu,Canberra,Islamabad,Moscow,Kabul,Beijing,Delhi,London', 'start_date': '1-1-2025', 'end_date': '','open_weather_api_key': '', 'gcp_project_name': '', 'deployment_env': 'prod',  'dataset_param' :'weather_details'}
+  work_pool:
+    name: RUN LOCAL
+    work_queue_name:
+    job_variables: {}
+  enforce_parameter_schema: true
+  schedules:
+  - cron: 0 */3 * * *
+    timezone: UTC
+    day_or: true
+    active: true
